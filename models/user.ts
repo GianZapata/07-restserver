@@ -1,6 +1,6 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, Model, Document } from 'mongoose';
 
-export interface UserProps {
+export interface IUser extends Document {
    name: string;
    email: string;
    password: string;
@@ -10,7 +10,7 @@ export interface UserProps {
    google?: boolean;
 }
 
-const userSchema = new Schema<UserProps>({
+const userSchema: Schema = new Schema<IUser, Model<IUser>>({
 	name: {
 		type: String,
 		required: [ true, 'El nombre es necesario' ],
@@ -42,6 +42,12 @@ const userSchema = new Schema<UserProps>({
 	}
 });
 
+userSchema.methods.toJSON = function() {
+	const { __v, password, ...user }: IUser = this.toObject();
+	return user;
+};
 
-export default model<UserProps>('User', userSchema);
+const User: Model<IUser> = model('User', userSchema);
+
+export default User;
 
