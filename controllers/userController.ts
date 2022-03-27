@@ -2,13 +2,11 @@ import { Request, Response } from 'express';
 
 export const usersGet = (req: Request ,res: Response) => {  
 	
-	const { q, xd, api = 'F' } = req.query;
+	const params = req.query;
 
 	res.json({
-		message: 'get API - Controller',
-		q,
-		xd,
-		api				
+		message: 'get API - Controller',				
+		params
 	});
 };
 
