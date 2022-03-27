@@ -6,10 +6,12 @@ class Server {
 
 	private app : Application;
 	private port: string;
+	private usersPath: string;
 
 	constructor(){      
 		this.app = express();
 		this.port = this.port =  process.env.PORT || '8080';
+		this.usersPath = '/api/users';
 
 		// Middlewares
 		this.middlewares();
@@ -23,12 +25,15 @@ class Server {
 		// CORS 
 		this.app.use( cors() );
 
+		// Body Parser 
+		this.app.use( express.json() );
+
 		// Directorio publico
 		this.app.use( express.static('public') );
 	}
 
 	routes() { 
-		this.app.use('/api/users', user );
+		this.app.use(this.usersPath, user );
 	}
 
 	listen() {       
