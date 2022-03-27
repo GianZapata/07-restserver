@@ -2,7 +2,7 @@
   "name": "07-restserver",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/app.js",
+  "main": "app.js",
   "scripts": {
     "start": "ts-node app.ts",
     "dev": "nodemon -x ts-node app.ts",
