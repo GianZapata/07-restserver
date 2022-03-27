@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 
-
 export const usersGet = (req: Request ,res: Response) => {   
 	res.json({
 		message: 'get API - Controller'				
@@ -18,6 +17,7 @@ export const usersPut = (req: Request ,res: Response) => {
 		message: 'put API - Controller'				
 	});
 };
+
 export const usersDelete = (req: Request ,res: Response) => {   
 	res.json({
 		message: 'delete API - Controller'				
