@@ -29,11 +29,11 @@
    </button>
    <script>
 
-   
+   const url = ( window.location.hostname === 'localhost' ) ? 'http://localhost:8000/api/auth/google' : 'https://restserver-gian.herokuapp.com/api/auth/google';
 
    function handleCredentialResponse(response) {   
       const body = JSON.stringify({ id_token : response.credential });
-      fetch('/api/auth/google', {
+      fetch( url , {
          method: 'POST',
          headers: { 'Content-Type': 'application/json' },
          body      
