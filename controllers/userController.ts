@@ -87,10 +87,11 @@ export const usersDelete = async (req: Request ,res: Response) => {
 		// const user = await User.findByIdAndDelete(id);
 		
 		const user: IUser | null = await User.findByIdAndUpdate(id, { status: false });
+		const userAuthenticated = req.headers.user;
 
 		res.json({
-			id,
-			user				
+			user,
+			userAuthenticated							
 		});
 		
 	} catch (error) {
