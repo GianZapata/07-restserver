@@ -2,20 +2,11 @@ import { Request, Response } from 'express';
 
 import { User, IUser } from '../models';
 import { hashPassword } from '../helpers/db-validators';
-import { UsersGetIParams } from '../interfaces';
-
 
 export const usersGet = async (req: Request ,res: Response) => {  
 	
-	let { limit = 5, skip = 5 }: UsersGetIParams = req.query;
+	const { limit = 5, skip = 5 }: { limit?: number, skip?: number } = req.query;
 	const query = { status: true };
-
-	if( typeof limit !== 'number' || typeof skip !== 'number'){
-		limit = 5; 
-		skip = 5;
-	}
-
-	// Obtener todos los usuarios
 
 	const [total, users ] = await Promise.all([
 		User.countDocuments( query ),

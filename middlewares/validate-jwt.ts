@@ -1,8 +1,10 @@
-import { Request, Response, NextFunction, } from 'express';
+import { Response, NextFunction, } from 'express';
 import jwt from 'jsonwebtoken';
-import { IUser, User } from '../models';
 
-export const validateJWT = async (req: Request, res: Response, next: NextFunction) => {
+import { IUser, User } from '../models'; 
+import { UserRequest } from '../interfaces';
+
+export const validateJWT = async (req: UserRequest, res: Response, next: NextFunction) => {
 	const token = req.header('x-token');
 
 	if( !token ) {
@@ -30,7 +32,8 @@ export const validateJWT = async (req: Request, res: Response, next: NextFunctio
 			});
 		}
 
-		req.headers.user = JSON.parse(JSON.stringify(user));
+		// Add user to request
+		req.headers.user = user;
 
 		next();
 	} catch (error) {
