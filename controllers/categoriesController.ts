@@ -68,22 +68,17 @@ export const createCategory = async (req: UserRequest, res: Response) => {
 			error
 		});
 	}
-
-	
-
-
-
-
 };
 
 export const updateCategory = async (req: UserRequest, res: Response) => {
 	const { id } = req.params;
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { _id, name, ...rest } = req.body;
+	const { _id, name, user, status, ...rest } = req.body;
 
 	try {
 	
 		rest.name = name.toUpperCase();		
+		rest.user = req.headers.user ? req.headers.user._id : null;
 
 		const categoryUpdated = await Category.findByIdAndUpdate( id, rest );		
 		
@@ -107,9 +102,9 @@ export const deleteCategory = async (req: UserRequest, res: Response) => {
 
 	try {
 
-		const categoryUpdated = await Category.findByIdAndUpdate( id, { status: false } );		
+		const categoryUpdated = await Category.findByIdAndUpdate( id, { status: false }, { new: true } );		
 		
-		res.json({
+		res.status(200).json({
 			category: categoryUpdated,
 			message: 'Categoría eliminada'
 		});

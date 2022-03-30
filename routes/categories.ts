@@ -1,8 +1,9 @@
+import { categoryExists } from './../helpers/db-validators';
 import { Router } from 'express';
 import { check } from 'express-validator';
 
 import { createCategory, getCategories, getCategoryById, updateCategory, deleteCategory } from '../controllers';
-import { categoryExists, hasRole, isAdminRole, validateFields, validateJWT } from '../middlewares';
+import { hasRole, isAdminRole, validateFields, validateJWT } from '../middlewares';
 
 const router = Router();
 

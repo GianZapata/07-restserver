@@ -1,4 +1,4 @@
-import { IUser, Role, User } from '../models';
+import { Category, IUser, Product, Role, User } from '../models';
 import bcryptjs from 'bcryptjs';
 
 export const isValidRole = async ( role = '') => {
@@ -33,4 +33,30 @@ export const hashPassword = ( password: string ) : string => {
 
 	const salt = bcryptjs.genSaltSync(10); // 10 es la cantidad de veces que se va a encriptar
 	return bcryptjs.hashSync(password, salt); //
+};
+
+export const categoryExists = async (id: string) => {		
+	const category = await Category.findById(id);	
+
+	if ( !category ) {
+		throw new Error('La categoría no existe');
+	}
+
+	if ( !category.status ) {
+		throw new Error('La categoría no está activa');
+	}
+
+};
+
+export const productExists = async (id: string) => {
+	const product = await Product.findById(id);
+
+	if ( !product ) {
+		throw new Error('El producto no existe');
+	}
+
+	if ( !product.status ) {
+		throw new Error('El producto no está activo');
+	}
+
 };

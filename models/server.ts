@@ -1,7 +1,7 @@
 import express, { Application } from 'express';  
 import cors from 'cors';
 
-import { auth, categories, users } from '../routes';
+import { auth, categories, products, users } from '../routes';
 import { dbConnection } from '../database/config';
 
 class Server { 	
@@ -12,6 +12,7 @@ class Server {
 		auth: string,
 		categories: string
 		users: string
+		products: string
 	};
 
 	constructor(){      
@@ -20,7 +21,8 @@ class Server {
 		this.paths = {
 			users: '/api/users',
 			auth: '/api/auth',
-			categories: '/api/categories'
+			categories: '/api/categories',
+			products: '/api/products'
 		};
 
 		// Conectar a la base de datos
@@ -53,6 +55,7 @@ class Server {
 		this.app.use(this.paths.auth, auth );
 		this.app.use(this.paths.categories, categories );
 		this.app.use(this.paths.users, users );
+		this.app.use(this.paths.products, products );
 	}
 
 	listen() {       

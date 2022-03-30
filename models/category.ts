@@ -25,6 +25,16 @@ const categorySchema: Schema = new Schema<ICategory, Model<ICategory>>({
 	}
 });
 
+categorySchema.methods.toJSON = function() {	
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const { __v,  _id, status, ...rest }: ICategory = this.toObject();
+
+	return {
+		...rest,
+		uid: _id
+	};
+};
+
 
 const Category: Model<ICategory> = model('Category', categorySchema);
 
