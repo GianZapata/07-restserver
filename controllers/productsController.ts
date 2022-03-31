@@ -32,10 +32,13 @@ export const getProductById = async (req: UserRequest, res: Response) => {
 };
 
 export const createProduct = async (req: UserRequest, res: Response) => {
-	const name = <IProduct>req.body.name.toUpperCase();
+
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const { status, user, ...body } = <IProduct>req.body;
 
 	try {
-		const productDB : IProduct | null = await Product.findOne({ name });
+
+		const productDB : IProduct | null = await Product.findOne({ name: body.name });
 
 		if ( productDB ) {
 			return res.status(400).json({
@@ -43,10 +46,11 @@ export const createProduct = async (req: UserRequest, res: Response) => {
 			});
 		}
 	
-		if( !req.headers.user ) throw new Error('No hay usuario');
+		if( !req.headers.user ) throw new Error('No puedes crear un producto');
 
 		const data = {
-			name,
+			...body,
+			name: body.name.toUpperCase(),
 			user: req.headers.user._id         
 		};
 
@@ -70,17 +74,19 @@ export const createProduct = async (req: UserRequest, res: Response) => {
 export const updateProduct = async (req: UserRequest, res: Response) => {
 	const { id } = req.params;
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { _id, name, user, status, ...rest } = req.body;
+	const { user, status, ...rest } = req.body;
 
 	try {
 	
-		rest.name = name.toUpperCase();	
+		if( rest.name ){			
+			rest.name = rest.name.toUpperCase();	
+		}
       
 		if( req.headers.user )	 { 
 			rest.user = req.headers.user._id;
 		}		
 
-		const productUpdated = await Product.findByIdAndUpdate( id, rest );		
+		const productUpdated = await Product.findByIdAndUpdate( id, rest, { new: true } );		
 		
 		res.json({
 			product: productUpdated

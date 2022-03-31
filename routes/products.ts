@@ -36,6 +36,7 @@ router.put('/:id', [
 	check('id').not().isEmpty(),
 	check('id').isMongoId(),
 	check('id').custom( productExists ),
+	// check(' category', 'La categoría es obligatoria').isMongoId(),
 	validateFields
 ], updateProduct );
 
