@@ -11,4 +11,4 @@ export interface SearchRequest extends Request {
       collection: string,
       term: string
    }
-}
+}  

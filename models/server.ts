@@ -1,7 +1,7 @@
 import express, { Application } from 'express';  
 import cors from 'cors';
-
-import { auth, categories, products, users, search } from '../routes';
+import fileUpload from 'express-fileupload';
+import { auth, categories, products, users, search, uploads } from '../routes';
 import { dbConnection } from '../database/config';
 
 class Server { 	
@@ -14,6 +14,7 @@ class Server {
 		users: string
 		products: string
 		search: string
+		uploads: string
 	};
 
 	constructor(){      
@@ -24,7 +25,8 @@ class Server {
 			auth: '/api/auth',
 			categories: '/api/categories',
 			products: '/api/products',
-			search: '/api/search'
+			search: '/api/search',
+			uploads: '/api/uploads'
 		};
 
 		// Conectar a la base de datos
@@ -51,6 +53,13 @@ class Server {
 
 		// Directorio publico
 		this.app.use( express.static('public') );
+
+		// Carga de archivos
+		this.app.use(fileUpload({
+			useTempFiles : true,
+			tempFileDir : '/tmp/'
+		}));
+
 	}
 
 	routes() { 
@@ -59,6 +68,7 @@ class Server {
 		this.app.use(this.paths.products, products );
 		this.app.use(this.paths.search, search );
 		this.app.use(this.paths.users, users );
+		this.app.use(this.paths.uploads, uploads );
 	}
 
 	listen() {       

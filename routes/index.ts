@@ -3,3 +3,4 @@ export { default as users } from './users';
 export { default as categories } from './categories'; 
 export { default as products } from './products'; 
 export { default as search } from './search'; 
+export { default as uploads } from './uploads'; 
